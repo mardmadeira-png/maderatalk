@@ -1,0 +1,106 @@
+// Version: 4.0.0
+type AccessControlState__201339279 =
+  {
+    var adminAssigned : Bool;
+    userRoles : Map__230067015<Principal, UserRole__91647283>
+  };
+type Conversation__78217734 =
+  {
+    createdAt : Timestamp__301639476;
+    id : Nat;
+    lastMessageAt : Timestamp__301639476;
+    participantA : UserId__158757552;
+    participantB : UserId__158757552
+  };
+type Data__44217153<K, V> = {var count : Nat__227979830; kvs : [var ?(K, V)]};
+type ExternalBlob__220559234 = Blob;
+type Internal__283199666<K, V> =
+  {children : [var ?Node__204828119<K, V>]; data : Data__44217153<K, V>};
+type Leaf__598469445<K, V> = {data : Data__44217153<K, V>};
+type List__355132335<T> =
+  {
+    var blockIndex : Nat__227979830;
+    var blocks : [var [var ?T]];
+    var elementIndex : Nat__227979830
+  };
+type List__836382695<T> = List__355132335<T>;
+type Map__230067015<K, V> = Map__405889023<K, V>;
+type Map__405889023<K, V> = Map__603270868<K, V>;
+type Map__603270868<K, V> =
+  {var root : Node__204828119<K, V>; var size : Nat__227979830};
+type Message__804209456 =
+  {
+    body : Text;
+    conversationId : Nat;
+    id : Nat;
+    sender : UserId__158757552;
+    sentAt : Timestamp__301639476
+  };
+type Nat__227979830 = Nat__920180692;
+type Nat__920180692 = Nat;
+type NewActor__769816496 =
+  {
+    accessControlState : AccessControlState__201339279;
+    conversations :
+      Map__230067015<Nat,
+                      {
+                        createdAt : Int;
+                        id : Nat;
+                        lastMessageAt : Int;
+                        participantA : Principal;
+                        participantB : Principal
+                      }>;
+    messages :
+      Map__230067015<Nat,
+                      List__836382695<{
+                                        body : Text;
+                                        conversationId : Nat;
+                                        id : Nat;
+                                        sender : Principal;
+                                        sentAt : Int
+                                      }>>;
+    nextConversationId : {var value : Nat};
+    nextMessageId : {var value : Nat};
+    profiles : Map__230067015<Principal, {displayName : Text; photo : ?Blob}>;
+    readState : Map__230067015<Principal, Map__230067015<Nat, Nat>>
+  };
+type Node__204828119<K, V> =
+  {#internal : Internal__283199666<K, V>; #leaf : Leaf__598469445<K, V>};
+type OldActor__512397517 = {};
+type Profile__469549097 =
+  {displayName : Text; photo : ?ExternalBlob__220559234};
+type Timestamp__301639476 = Int;
+type UserId__158757552 = Principal;
+type UserRole__91647283 = {#admin; #guest; #user};
+{
+  "00000000_000000" : OldActor__512397517 -> NewActor__769816496
+}
+actor  {
+  stable accessControlState :
+    {
+      var adminAssigned : Bool;
+      userRoles : Map__230067015<Principal, UserRole__91647283>
+    };
+  stable conversations :
+    {
+      var root : Node__204828119<Nat, Conversation__78217734>;
+      var size : Nat__227979830
+    };
+  stable messages :
+    {
+      var root : Node__204828119<Nat, List__836382695<Message__804209456>>;
+      var size : Nat__227979830
+    };
+  stable nextConversationId : {var value : Nat};
+  stable nextMessageId : {var value : Nat};
+  stable profiles :
+    {
+      var root : Node__204828119<UserId__158757552, Profile__469549097>;
+      var size : Nat__227979830
+    };
+  stable readState :
+    {
+      var root : Node__204828119<UserId__158757552, Map__230067015<Nat, Nat>>;
+      var size : Nat__227979830
+    }
+};

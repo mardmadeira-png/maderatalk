@@ -1,0 +1,137 @@
+type _ImmutableObjectStorageRefillResult = 
+ record {
+   success: opt bool;
+   topped_up_amount: opt nat;
+ };
+type _ImmutableObjectStorageRefillInformation = record {
+                                                  proposed_top_up_amount:
+                                                   opt nat;};
+type _ImmutableObjectStorageCreateCertificateResult = 
+ record {
+   blob_hash: text;
+   method: text;
+ };
+type Value = 
+ variant {
+   "bool": bool;
+   float: float64;
+   "int": int;
+   "nat": nat;
+   "null";
+   "text": text;
+ };
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type UserId = principal;
+type Timestamp = int;
+type Result__1 = 
+ variant {
+   err: Error;
+   ok;
+ };
+type Result = 
+ record {
+   hasMore: bool;
+   rows: vec vec Cell;
+ };
+type ProfileView = 
+ record {
+   displayName: text;
+   id: UserId;
+   photo: opt ExternalBlob;
+ };
+type ProfileInput = 
+ record {
+   displayName: text;
+   photo: opt ExternalBlob;
+ };
+type MessageView = 
+ record {
+   body: text;
+   conversationId: nat;
+   id: nat;
+   sender: UserId;
+   sentAt: Timestamp;
+ };
+type ExternalBlob = blob;
+type Error = 
+ variant {
+   AmbiguousAttribute: record {
+                         field: text;
+                         sources: vec text;
+                       };
+   FrontendOriginMismatch: record {
+                             expected: vec text;
+                             got: text;
+                           };
+   FrontendOriginsNotConfigured;
+   MalformedCandid;
+   MissingField: text;
+   MixedSsoSources: record {
+                      otherKeys: vec text;
+                      ssoKeys: vec text;
+                    };
+   NoAttributes;
+   Stale: record {ageNs: nat;};
+   UnknownNonce;
+   UntrustedSsoSource: record {domain: text;};
+ };
+type ConversationSummary = 
+ record {
+   id: nat;
+   lastMessageAt: Timestamp;
+   lastMessagePreview: opt text;
+   otherDisplayName: text;
+   otherParticipant: UserId;
+   otherPhoto: opt ExternalBlob;
+   unreadCount: nat;
+ };
+type Cell = 
+ record {
+   name: text;
+   value: Value;
+ };
+service : {
+  _immutableObjectStorageBlobsAreLive: (hashes: vec blob) -> (vec bool) query;
+  _immutableObjectStorageBlobsToDelete: () -> (vec blob) query;
+  _immutableObjectStorageConfirmBlobDeletion: (blobs: vec blob) -> ();
+  _immutableObjectStorageCreateCertificate: (blobHash: text) ->
+   (_ImmutableObjectStorageCreateCertificateResult);
+  _immutableObjectStorageRefillCashier: (refillInformation:
+   opt _ImmutableObjectStorageRefillInformation) ->
+   (_ImmutableObjectStorageRefillResult);
+  _immutableObjectStorageUpdateGatewayPrincipals: () -> ();
+  _initialize_access_control: () -> ();
+  _internet_identity_sign_in_finish: () -> (Result__1);
+  _internet_identity_sign_in_start: () -> (blob);
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  execute: (qJson: text) -> (Result) query;
+  /// Static Markdown documentation of the backend's public API.
+  getApiDoc: () -> (text) query;
+  getCallerUserRole: () -> (UserRole) query;
+  /// Full message history of a conversation in chronological order.
+  getMessages: (conversationId: nat) -> (vec MessageView) query;
+  /// Read the caller's own profile.
+  getMyProfile: () -> (opt ProfileView) query;
+  /// Look up a single user's public profile.
+  getProfile: (user: UserId) -> (opt ProfileView) query;
+  isCallerAdmin: () -> (bool) query;
+  /// The caller's conversations, most recent activity first.
+  listConversations: () -> (vec ConversationSummary) query;
+  /// Mark a conversation as read for the caller.
+  markRead: (conversationId: nat) -> ();
+  /// Find an existing one-to-one conversation between the caller and another
+  /// user, or create one.
+  openConversation: (other: UserId) -> (nat);
+  /// Create or replace the caller's own profile.
+  saveMyProfile: (input: ProfileInput) -> (ProfileView);
+  schema: () -> (text) query;
+  /// Search registered users by display name (case-insensitive substring).
+  searchProfiles: (term: text) -> (vec ProfileView) query;
+  /// Send a text message into a conversation.
+  sendMessage: (conversationId: nat, body: text) -> (MessageView);
+}

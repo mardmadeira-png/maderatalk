@@ -1,0 +1,177 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("/assets/fonts/SpaceGrotesk.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "General Sans";
+  src: url("/assets/fonts/GeneralSans.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  src: url("/assets/fonts/GeistMono.woff2") format("woff2");
+  font-display: swap;
+}
+
+@layer base {
+  :root {
+    --font-display: "Space Grotesk";
+    --font-body: "General Sans";
+    --font-mono: "Geist Mono";
+    --radius: 0.75rem;
+
+    /* Signal Ink — dark, confident, teal-accented. Dark is the primary mode. */
+    --background: 0.155 0.012 240;
+    --foreground: 0.95 0.008 220;
+    --card: 0.2 0.014 240;
+    --card-foreground: 0.95 0.008 220;
+    --popover: 0.22 0.016 240;
+    --popover-foreground: 0.95 0.008 220;
+
+    --primary: 0.72 0.14 175;
+    --primary-foreground: 0.155 0.012 175;
+
+    --secondary: 0.26 0.016 240;
+    --secondary-foreground: 0.9 0.008 220;
+    --muted: 0.26 0.016 240;
+    --muted-foreground: 0.62 0.012 230;
+
+    --accent: 0.72 0.14 175;
+    --accent-foreground: 0.155 0.012 175;
+
+    --destructive: 0.6 0.2 25;
+    --destructive-foreground: 0.96 0.008 25;
+
+    --success: 0.72 0.15 155;
+    --warning: 0.78 0.14 80;
+
+    --border: 0.3 0.016 240;
+    --input: 0.3 0.016 240;
+    --ring: 0.72 0.14 175;
+
+    --chart-1: 0.72 0.14 175;
+    --chart-2: 0.7 0.13 220;
+    --chart-3: 0.78 0.14 80;
+    --chart-4: 0.65 0.18 320;
+    --chart-5: 0.68 0.16 40;
+
+    --sidebar: 0.18 0.014 240;
+    --sidebar-foreground: 0.95 0.008 220;
+    --sidebar-primary: 0.72 0.14 175;
+    --sidebar-primary-foreground: 0.155 0.012 175;
+    --sidebar-accent: 0.26 0.016 240;
+    --sidebar-accent-foreground: 0.9 0.008 220;
+    --sidebar-border: 0.3 0.016 240;
+    --sidebar-ring: 0.72 0.14 175;
+
+    --bubble-incoming: 0.26 0.016 240;
+    --bubble-incoming-foreground: 0.93 0.008 220;
+    --bubble-outgoing: 0.72 0.14 175;
+    --bubble-outgoing-foreground: 0.155 0.012 175;
+
+    --gradient-primary: linear-gradient(
+      135deg,
+      oklch(0.72 0.14 175),
+      oklch(0.66 0.13 200)
+    );
+    --gradient-subtle: linear-gradient(
+      180deg,
+      oklch(0.2 0.014 240),
+      oklch(0.18 0.014 240)
+    );
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .light {
+    --background: 0.98 0.006 220;
+    --foreground: 0.18 0.012 240;
+    --card: 1.0 0.002 240;
+    --card-foreground: 0.18 0.012 240;
+    --popover: 1.0 0.002 240;
+    --popover-foreground: 0.18 0.012 240;
+
+    --primary: 0.5 0.13 178;
+    --primary-foreground: 0.99 0.004 178;
+
+    --secondary: 0.94 0.008 220;
+    --secondary-foreground: 0.28 0.012 240;
+    --muted: 0.94 0.008 220;
+    --muted-foreground: 0.5 0.012 230;
+
+    --accent: 0.5 0.13 178;
+    --accent-foreground: 0.99 0.004 178;
+
+    --destructive: 0.55 0.22 25;
+    --destructive-foreground: 0.99 0.004 25;
+
+    --success: 0.55 0.16 155;
+    --warning: 0.7 0.15 80;
+
+    --border: 0.9 0.008 220;
+    --input: 0.9 0.008 220;
+    --ring: 0.5 0.13 178;
+
+    --chart-1: 0.5 0.13 178;
+    --chart-2: 0.55 0.14 220;
+    --chart-3: 0.7 0.15 80;
+    --chart-4: 0.55 0.2 320;
+    --chart-5: 0.6 0.18 40;
+
+    --sidebar: 0.96 0.006 220;
+    --sidebar-foreground: 0.18 0.012 240;
+    --sidebar-primary: 0.5 0.13 178;
+    --sidebar-primary-foreground: 0.99 0.004 178;
+    --sidebar-accent: 0.94 0.008 220;
+    --sidebar-accent-foreground: 0.28 0.012 240;
+    --sidebar-border: 0.9 0.008 220;
+    --sidebar-ring: 0.5 0.13 178;
+
+    --bubble-incoming: 0.94 0.008 220;
+    --bubble-incoming-foreground: 0.2 0.012 240;
+    --bubble-outgoing: 0.5 0.13 178;
+    --bubble-outgoing-foreground: 0.99 0.004 178;
+  }
+
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+}
+
+@layer utilities {
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+  .bg-gradient-primary {
+    background-image: var(--gradient-primary);
+  }
+  .bg-gradient-subtle {
+    background-image: var(--gradient-subtle);
+  }
+  .shadow-subtle {
+    box-shadow: 0 1px 2px 0 oklch(0.1 0.01 240 / 0.4), 0 1px 3px 0
+      oklch(0.1 0.01 240 / 0.3);
+  }
+  .shadow-elevated {
+    box-shadow: 0 4px 12px -2px oklch(0.1 0.01 240 / 0.5), 0 2px 6px -2px
+      oklch(0.1 0.01 240 / 0.4);
+  }
+  .shadow-bubble {
+    box-shadow: 0 1px 2px 0 oklch(0.1 0.01 240 / 0.35);
+  }
+  .animate-message-in {
+    animation: message-in 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .animate-fade-in {
+    animation: fade-in 0.4s ease-out;
+  }
+}

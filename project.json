@@ -1,0 +1,19 @@
+{
+  "overview": "A WhatsApp-style messaging web app where people sign in, find each other by name, and chat one-to-one in real time.",
+  "features": [
+    "Sign in and set up a profile with a display name and photo",
+    "Search for other people by display name",
+    "One-to-one conversations with a chat list sorted by recent activity",
+    "Send and receive text messages with timestamps and live refresh",
+    "Unread message counts that clear when a chat is opened",
+    "Responsive layout that works on mobile and desktop"
+  ],
+  "category": "social-messaging",
+  "tags": [
+    "chat",
+    "messaging",
+    "social",
+    "communication"
+  ],
+  "last_updated": "2026-10-15T15:36:16.179Z"
+}
